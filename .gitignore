@@ -25,3 +25,6 @@ artifacts/models/*.pth
 # OS
 .DS_Store
 Thumbs.db
+# UCS data artifacts
+data/ucs/*.parquet
+data/ucs/*.yaml

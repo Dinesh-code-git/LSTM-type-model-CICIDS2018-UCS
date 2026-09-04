@@ -1,0 +1,21 @@
+model:
+  type: LSTM
+
+  input_size: null
+
+  hidden_size: 64
+  num_layers: 1
+  dropout: 0.2
+  bidirectional: false
+
+training:
+  batch_size: 64
+  epochs: 30
+  learning_rate: 0.001
+  weight_decay: 0.0
+
+  loss: BCEWithLogitsLoss
+  optimizer: Adam
+
+reproducibility:
+  seed: 42

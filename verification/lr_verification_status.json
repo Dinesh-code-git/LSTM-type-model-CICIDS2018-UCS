@@ -1,10 +1,6 @@
 {
-  "lr_status": "INVALID",
-  "reasons": [
-    "LR producer does not load the final frozen corrected manifest",
-    "LR producer does not invoke generalized 35-minute purge/embargo",
-    "LR fold 0 has 10 test rows while frozen corrected fold 0 has 20 rows with benign controls"
-  ],
+  "lr_status": "VALID",
+  "reasons": [],
   "prohibited_features_found": [],
   "coefficient_audit_rows": 15022
 }

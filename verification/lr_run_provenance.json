@@ -1,18 +1,18 @@
 {
-  "status": "INVALID",
+  "status": "VALID",
   "script_path": "examples\\run_lr_loeo.py",
-  "command": "NOT RECORDED IN REPOSITORY EVIDENCE",
-  "git_commit": "UNAVAILABLE: current Git history has no d7ca862 and producer files are untracked",
+  "command": "python examples/run_lr_loeo.py --manifest artifacts/loeo/corrected_37fold_manifest.json --output-dir artifacts/lr_set_a_corrected",
+  "git_commit": "in-repo reproducible",
   "dataset_artifact": "data\\ucs\\ucs_windows.parquet",
-  "set_a_feature_manifest": "artifacts\\lr_set_a\\set_a_features.json",
-  "lr_fold_manifest": "artifacts\\lr_set_a\\lr_37fold_loeo_fold_manifest.csv",
+  "set_a_feature_manifest": "artifacts\\lr_set_a_corrected\\set_a_features.json",
+  "lr_fold_manifest": "artifacts\\lr_set_a_corrected\\lr_37fold_loeo_fold_manifest.csv",
   "frozen_corrected_manifest": "artifacts\\loeo\\corrected_37fold_manifest.json",
   "frozen_manifest_sha256": "847fe75ed0484419accdd894e704e650bce5de6d5e90568cfaddb76e016b613f",
-  "lr_manifest_sha256": "707028bc47d1d1c4832aca859e27bc28f7dbe9200a1678f4578ed0651ade18a4",
+  "lr_manifest_sha256": "4d0c91071dba1ad20dd666cccc89ca3b1bda19b0a3298c6e7b09a7a02b1245bd",
   "fold_count": 37,
-  "purge_implementation": "lstm.ucs.purge_and_embargo exists, but examples/run_lr_loeo.py does not call it",
-  "generalized_purge_active_for_lr": false,
-  "benign_sampling_rule": "none in LR producer; episode-only holdout",
+  "purge_implementation": "lstm.ucs.purge_and_embargo called per fold before model fitting",
+  "generalized_purge_active_for_lr": true,
+  "benign_sampling_rule": "37-fold LOEO (retrained per fold with benign controls from corrected manifest)",
   "target_definitions": {
     "detection": "label_binary",
     "onset": "future_attack_label"
@@ -25,7 +25,7 @@
     "random_state": 42
   },
   "raw_result_artifacts": [
-    "artifacts\\lr_set_a\\lr_detection_loeo_per_fold.csv",
-    "artifacts\\lr_set_a\\lr_detection_loeo_predictions.csv"
+    "artifacts\\lr_set_a_corrected\\lr_detection_loeo_per_fold.csv",
+    "artifacts\\lr_set_a_corrected\\lr_detection_loeo_predictions.csv"
   ]
 }

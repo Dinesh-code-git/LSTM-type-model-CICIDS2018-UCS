@@ -4,7 +4,13 @@ import argparse
 import json
 import platform
 import subprocess
+import sys
+import os
 from pathlib import Path
+
+workspace_dir = Path(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+if str(workspace_dir) not in sys.path:
+    sys.path.insert(0, str(workspace_dir))
 
 import numpy as np
 import pandas as pd

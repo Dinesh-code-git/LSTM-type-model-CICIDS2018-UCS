@@ -1,0 +1,23 @@
+{
+  "canonical_lr_experiment_id": "artifacts/lr",
+  "script": "C:/Users/Vicky/Documents/SIH_2026/SIH2026---UCS-INGESTION-PIPELINE-for-logistic-regression/scripts/train_lr_loeo.py",
+  "manifest": "artifacts/lr/lr_37fold_loeo_fold_manifest.csv",
+  "dataset_artifact": "data/ucs/ucs_windows.parquet",
+  "commit_hash": "unknown",
+  "detection_metrics": {
+    "f1": 0.972972972972973,
+    "precision": 0.972972972972973,
+    "recall": 0.972972972972973,
+    "fpr": 0.0
+  },
+  "onset_metrics": {
+    "f1": 0.8880308880308881,
+    "precision": 0.9459459459459459,
+    "recall": 0.8783783783783784,
+    "fpr": 0.0045045045045045045
+  },
+  "fold_count": 37,
+  "purge_embargo_evidence": "To be verified with scripts/verify_purge_embargo.py",
+  "coefficient_audit_evidence": "To be verified",
+  "superseded_experiments": ["artifacts/lr_set_a", "artifacts/lr_set_a_corrected"]
+}

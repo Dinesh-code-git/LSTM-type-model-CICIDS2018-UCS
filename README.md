@@ -1,114 +1,96 @@
-# Standalone LSTM
+# LSTM + UCS for CSE-CIC-IDS2018
 
-A reusable, dataset-independent LSTM implementation built with PyTorch.
+This repository connects the canonical Unified Cyber State (UCS) representation
+to the existing PyTorch LSTM. The LSTM consumes UCS windows, never raw flow
+records. The canonical ingestion and windowing implementation is maintained in
+the [UCS reference repository](https://github.com/div007x/SIH2026---UCS-INGESTION-PIPELINE).
 
-The repository provides the core components required to train, evaluate,
-save, load, and use an LSTM model for binary sequence classification.
-
----
-
-## Features
-
-- Dataset-independent LSTM model
-- Supports arbitrary sequence lengths
-- Supports arbitrary numbers of input features
-- Generic NumPy/PyTorch data handling
-- Training and validation support
-- Training-only feature scaling
-- Binary classification evaluation
-- Accuracy, Precision, Recall, F1, ROC-AUC and PR-AUC
-- Confusion matrix generation
-- Model checkpoint saving and loading
-- Reproducible experiments
-- Automated test suite
-- Synthetic end-to-end training example
-
----
-
-## Repository Structure
+## Pipeline
 
 ```text
-LSTM-type-model/
-│
-├── configs/
-│   └── model_config.yaml
-│
-├── lstm/
-│   ├── __init__.py
-│   ├── model.py
-│   ├── trainer.py
-│   ├── data.py
-│   ├── preprocessing.py
-│   ├── evaluator.py
-│   └── utils.py
-│
-├── tests/
-│   ├── test_model.py
-│   ├── test_trainer.py
-│   ├── test_data.py
-│   ├── test_preprocessing.py
-│   ├── test_evaluator.py
-│   ├── test_utils.py
-│   └── test_integration.py
-│
-├── examples/
-│   ├── __init__.py
-│   └── train_example.py
-│
-├── artifacts/
-│   └── models/
-│
-├── requirements.txt
-├── README.md
-└── .gitignore
-## Dataset Independence
+CSE-CIC-IDS2018 CSV
+    -> canonical UCS ingestion, cleaning, mapping, and 1-minute windows
+    -> future_attack_label (H = 5 windows)
+    -> chronological purge + embargo (L + H = 35 windows)
+    -> train-only log1p + robust scaling
+    -> 30-window sequences (30, F)
+    -> existing causal LSTM
+    -> future attack probability and metrics
+```
 
-This repository contains a reusable LSTM implementation that is independent
-of any specific dataset or application domain.
+UCS input is `data/ucs/ucs_windows.parquet`. Its feature columns are inferred
+from numeric UCS columns while excluding metadata, `label_binary`,
+`label_attack_type`, and `future_attack_label`. The input feature count `F` is
+therefore determined by the actual UCS table and passed to `LSTMClassifier`.
 
-The LSTM does not directly read or interpret raw dataset files.
+The authoritative settings are in [configs/model_config.yaml](configs/model_config.yaml):
+1-minute windows, a 30-minute lookback, a 5-minute forecast horizon, and
+70/15/15 chronological splits. Sequences are built independently within each
+split. The last window in each sequence supplies the future label and endpoint
+timestamp. Purge and embargo remove 35 windows around each split boundary.
 
-A dataset must first be converted into numerical sequences with the following
-interface:
+Normalization is fit only on purged training windows. The canonical transform
+uses `log1p` for traffic-volume families and `(x - Q50) / (Q75 - Q25)` for the
+robust scale; validation and test data are transformed with those saved
+training statistics.
 
-```text
-X = (samples, sequence_length, features)
-y = (samples,)
+The world-model experiment adds a deterministic next-state head on the causal
+LSTM, approximating `p(S(t+1)|S(t))`, plus persistence and lagged-linear
+baselines. Next-state and rollout metrics use the `chronological split`
+protocol. Detection evaluation uses retrained episode-wise `LOEO`; the
+available UCS artifact determines the number of evaluable episodes.
 
-### Also change the example wording
-
-In the README, use:
-
-```markdown
-## Example
-
-The included example uses synthetic numerical sequences to demonstrate the
-complete LSTM pipeline without depending on an external dataset.
-
-Run:
+The current-data probabilistic experiment can be run with:
 
 ```powershell
-python -m examples.train_example
+python examples/train_probabilistic.py data/ucs/ucs_windows.parquet
+```
 
-### Final architecture
+It writes Gaussian next-state metrics, prediction intervals, recursive rollout
+metrics, feature-group attribution/deletion results, deviation summaries, and
+reproducibility metadata under `artifacts/experiments/world_model_20260904/probabilistic`.
+The run also saves per-window NLL distributions, sigma diagnostics, top-N NLL
+outliers, and `rollout_error_vs_k.png`. The lagged-linear rollout uses the
+existing 128-component PCA experiment configuration, fitted on purged training
+windows only and inverted before original-space error calculation. All results
+use the `chronological split` protocol. Episode-level LOEO, onset, B2, and
+unseen-episode novelty claims remain deferred because episode IDs are
+unavailable; `source_day` is not used as an episode ID.
 
-After this change, our repository's responsibility is unambiguous:
+## Python API
 
-```text
-Raw Dataset
-    ↓
-[External / Dataset-specific preparation]
-    ↓
-X, y
-    ↓
-┌───────────────────────────────┐
-│       LSTM-type-model         │
-│                               │
-│  data → preprocessing → LSTM  │
-│              ↓                │
-│          training             │
-│              ↓                │
-│         evaluation            │
-│              ↓                │
-│          inference            │
-└───────────────────────────────┘
+```python
+from lstm.ucs import UCSConfig, load_ucs_windows, prepare_lstm_inputs
+
+windows = load_ucs_windows("data/ucs/ucs_windows.parquet")
+sets, features, scaler, normalized = prepare_lstm_inputs(
+    windows,
+    config=UCSConfig(),
+)
+```
+
+`sets["train"]`, `sets["val"]`, and `sets["test"]` each expose `X`, `y`,
+and `timestamps`, ready for the existing trainer, evaluator, and model.
+
+## Reproducibility and validation
+
+The model configuration, feature list, scaler parameters, seed, checkpoint,
+predictions, and metrics should be saved as experiment artifacts by the
+training entry point. Raw CICIDS2018 data and generated datasets are ignored
+by Git. Run the included tests with:
+
+```powershell
+$env:PYTHONPATH = "."
+pytest -q
+```
+
+The repository includes a synthetic end-to-end test because the raw dataset is
+not bundled. Full-dataset metrics are intentionally not reported here until a
+real CICIDS2018 UCS artifact is supplied and the experiment is run.
+
+## Standalone components
+
+The generic data, preprocessing, training, evaluation, checkpoint, and
+inference APIs remain available for non-UCS sequence datasets. The included
+`examples/train_example.py` continues to demonstrate that standalone path.
+

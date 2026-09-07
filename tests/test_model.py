@@ -47,6 +47,15 @@ def test_probability_shape():
     assert probabilities.shape == (batch_size,)
 
 
+def test_logits_match_probability_output():
+    model = LSTMClassifier(input_size=5, dropout=0.0)
+    x = torch.randn(4, 10, 5)
+    logits = model.forward_logits(x)
+    probabilities = model(x)
+    assert logits.shape == (4,)
+    assert torch.allclose(torch.sigmoid(logits), probabilities)
+
+
 def test_probability_range():
     model = LSTMClassifier(
         input_size=5,

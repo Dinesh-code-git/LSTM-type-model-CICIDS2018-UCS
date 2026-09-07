@@ -28,3 +28,29 @@ Thumbs.db
 # UCS data artifacts
 data/ucs/*.parquet
 data/ucs/*.yaml
+# Large generated world-model experiment outputs
+artifacts/experiments/world_model_20260904/
+
+# Generated ML experiment outputs
+artifacts/experiments/
+artifacts/lstm/
+artifacts/lstm_diagnostics/
+artifacts/loeo/
+artifacts/lr/
+artifacts/lr_leakage_audit/
+artifacts/lr_set_a/
+artifacts/lr_set_a_corrected/
+artifacts/lr_frozen_verified/
+artifacts/lstm_diagnostics_recovered/
+artifacts/lstm_diagnostics_smoke/
+artifacts/lstm_diagnostics_smoke2/
+artifacts/lstm_diagnostics_smoke3/
+artifacts/lstm_diagnostics_smoke4/
+artifacts/final_lr_verification/
+artifacts/purge_embargo_verification/
+artifacts/protocol_validation/
+artifacts/ucs_experiment_20260904/
+
+# Pytest output logs
+pytest_*.out
+pytest_*.err

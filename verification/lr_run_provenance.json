@@ -1,0 +1,31 @@
+{
+  "status": "INVALID",
+  "script_path": "examples\\run_lr_loeo.py",
+  "command": "NOT RECORDED IN REPOSITORY EVIDENCE",
+  "git_commit": "UNAVAILABLE: current Git history has no d7ca862 and producer files are untracked",
+  "dataset_artifact": "data\\ucs\\ucs_windows.parquet",
+  "set_a_feature_manifest": "artifacts\\lr_set_a\\set_a_features.json",
+  "lr_fold_manifest": "artifacts\\lr_set_a\\lr_37fold_loeo_fold_manifest.csv",
+  "frozen_corrected_manifest": "artifacts\\loeo\\corrected_37fold_manifest.json",
+  "frozen_manifest_sha256": "847fe75ed0484419accdd894e704e650bce5de6d5e90568cfaddb76e016b613f",
+  "lr_manifest_sha256": "707028bc47d1d1c4832aca859e27bc28f7dbe9200a1678f4578ed0651ade18a4",
+  "fold_count": 37,
+  "purge_implementation": "lstm.ucs.purge_and_embargo exists, but examples/run_lr_loeo.py does not call it",
+  "generalized_purge_active_for_lr": false,
+  "benign_sampling_rule": "none in LR producer; episode-only holdout",
+  "target_definitions": {
+    "detection": "label_binary",
+    "onset": "future_attack_label"
+  },
+  "model_configuration": {
+    "class": "sklearn.linear_model.LogisticRegression",
+    "solver": "liblinear",
+    "max_iter": 2000,
+    "class_weight": null,
+    "random_state": 42
+  },
+  "raw_result_artifacts": [
+    "artifacts\\lr_set_a\\lr_detection_loeo_per_fold.csv",
+    "artifacts\\lr_set_a\\lr_detection_loeo_predictions.csv"
+  ]
+}

@@ -12,7 +12,18 @@ from .evaluator import (
     validate_evaluation_data,
 )
 
-from .model import LSTMClassifier
+from .model import LSTMClassifier, LSTMWorldModel, LSTMGaussianWorldModel
+
+from .probabilistic import (
+    ablate_history,
+    deviation_scores,
+    feature_groups,
+    gaussian_nll,
+    interval_coverage,
+    prediction_interval,
+    regression_metrics,
+    train_gaussian,
+)
 
 from .preprocessing import (
     StandardScaler,
@@ -38,8 +49,36 @@ from .utils import (
     set_seed,
 )
 
+from .ucs import (
+    UCSConfig,
+    LOEO_GROUPING_COLUMN,
+    LOEO_ELIGIBLE_ATTACK_TYPES,
+    LOEO_EXCLUDED_ATTACK_TYPES,
+    UCSRobustScaler,
+    SequenceSet,
+    build_lstm_sequences,
+    feature_columns,
+    load_ucs_windows,
+    prepare_lstm_inputs,
+    purge_and_embargo,
+    validate_ucs_windows,
+    UCSPCA,
+    apply_training_only_pca,
+    build_next_state_sequences,
+    build_loeo_episode_folds,
+    make_next_state_targets,
+    persistence_baseline,
+    fit_lagged_linear_baseline,
+    fit_pca_lagged_linear_baseline,
+    pca_rollout_predictions,
+    rollout_targets,
+    rollout_predictions,
+)
+
 __all__ = [
     "LSTMClassifier",
+    "LSTMWorldModel",
+    "LSTMGaussianWorldModel",
     "LSTMDataError",
     "create_dataloader",
     "split_data",
@@ -63,4 +102,35 @@ __all__ = [
     "model_summary",
     "save_model",
     "set_seed",
+    "UCSConfig",
+    "LOEO_GROUPING_COLUMN",
+    "LOEO_ELIGIBLE_ATTACK_TYPES",
+    "LOEO_EXCLUDED_ATTACK_TYPES",
+    "UCSRobustScaler",
+    "SequenceSet",
+    "build_lstm_sequences",
+    "feature_columns",
+    "load_ucs_windows",
+    "prepare_lstm_inputs",
+    "purge_and_embargo",
+    "validate_ucs_windows",
+    "UCSPCA",
+    "apply_training_only_pca",
+    "build_next_state_sequences",
+    "build_loeo_episode_folds",
+    "make_next_state_targets",
+    "persistence_baseline",
+    "fit_lagged_linear_baseline",
+    "fit_pca_lagged_linear_baseline",
+    "pca_rollout_predictions",
+    "rollout_targets",
+    "rollout_predictions",
+    "gaussian_nll",
+    "prediction_interval",
+    "interval_coverage",
+    "regression_metrics",
+    "feature_groups",
+    "ablate_history",
+    "deviation_scores",
+    "train_gaussian",
 ]

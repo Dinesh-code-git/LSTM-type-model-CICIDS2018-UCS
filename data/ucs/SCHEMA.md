@@ -24,7 +24,7 @@ One row per 1-minute time window.
 | `unique_protocols_count` | Feature | `float64` | RobustScaler | Distinct transport protocols active |
 | `mask_has_traffic_volume_features` | Mask | `float64` | Fixed Flag | 1.0 (Presence mask for traffic volume group) |
 | `mask_has_flow_timing_features` | Mask | `float64` | Fixed Flag | 1.0 (Presence mask for flow timing group) |
-| `mask_has_packet_level_features` | Mask | `float64` | Fixed Flag | 1.0 (Presence mask for packet length / win bytes) |
+| `mask_has_packet_level_features` | Mask | `float64` | Fixed Flag | 1.0 on 14-02-2018, 0.0 otherwise. Packet-level extraction is a present-mask architectural demonstration for one day, with real PCAP parsing scoped post-MVP. No genuine extraction occurred. |
 | `mask_has_tcp_flags` | Mask | `float64` | Fixed Flag | 1.0 (Presence mask for TCP flags) |
 | `mask_has_graph_topology` | Mask | `float64` | Fixed Flag | 1.0 (Presence mask for graph edge availability) |
 | `mask_has_identity_auth` | Mask | `float64` | Fixed Flag | 0.0 (Identity/Auth out-of-scope in this build) |

@@ -18,6 +18,9 @@
 | **Leakage-Free Normalization** | RobustScaler fit exclusively on post-purge Train | **Fitted on Train only** | **PASSED** |
 | **Future Forecast Alignment** | Target backward shift with no future feature leakage | **H=5 min horizon** | **PASSED** |
 
+> [!NOTE]
+> **Packet-Level Feature Validation**: Packet-level extraction (`mask_has_packet_level_features`) is a present-mask architectural demonstration for one day (14-02-2018), with real PCAP parsing scoped post-MVP. No genuine extraction occurred. The mask simply validates the pipeline's capability to ingest and forward such features when they become available.
+
 ---
 
 ## 2. Dataset Processing & Row Accounting

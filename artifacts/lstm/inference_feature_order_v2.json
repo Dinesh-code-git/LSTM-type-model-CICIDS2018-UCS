@@ -5,7 +5,7 @@
     "description": "Exact ordered list of 406 feature names expected by the LSTM v2 input layer.",
     "checkpoint": "gaussian_next_state_best_v2.pt",
     "checkpoint_commit": "70493347f6d1576787a12c0a75a3a76e0196652f",
-    "exported_at": "2026-09-10T06:14:23.538685+00:00",
+    "exported_at": "2026-09-10T08:37:29.935399+00:00",
     "total_features": 406,
     "input_dimension": 406,
     "state_dimension": 406

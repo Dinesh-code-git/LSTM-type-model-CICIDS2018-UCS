@@ -8,8 +8,8 @@
   "output_dir": "C:\\Users\\Vicky\\Documents\\SIH_2026\\LSTM-type-model-CICIDS2018-UCS\\artifacts\\lstm\\ml2_export_chronological\\per_window_json",
   "num_predictions": 2275,
   "missing_windows_fallback": "First 512 windows have no deviation (fallback=0) due to initial training cutoff",
-  "generation_timestamp": "2026-09-07T17:14:04.447703+00:00",
-  "git_hash": "33f96bbe7d1ae95f7e18c9febce914d51484426a",
+  "generation_timestamp": "2026-09-10T06:11:43.201718+00:00",
+  "git_hash": "70493347f6d1576787a12c0a75a3a76e0196652f",
   "chunks": [
     {
       "chunk_id": 1,

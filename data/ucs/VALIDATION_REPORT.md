@@ -19,7 +19,7 @@
 | **Future Forecast Alignment** | Target backward shift with no future feature leakage | **H=5 min horizon** | **PASSED** |
 
 > [!NOTE]
-> **Packet-Level Feature Validation**: Packet-level extraction (`mask_has_packet_level_features`) is a present-mask architectural demonstration for one day (14-02-2018), with real PCAP parsing scoped post-MVP. No genuine extraction occurred. The mask simply validates the pipeline's capability to ingest and forward such features when they become available.
+> **Packet-Level Feature Remediation & Contract v2**: Per Option A (Corrected-but-simulated), all 12 fabricated packet-level columns (`pkt_ttl_*`, `pkt_frag_*`, `pkt_payload_size_*`, `pkt_tcp_retrans_count`, `pkt_port_scan_seq_score`) for `14-02-2018` have been zero-filled (`0.0`) and `mask_has_packet_level_features` set to `0.0` across all windows. The probabilistic LSTM World Model has been retrained (`gaussian_next_state_best_v2.pt`) and inference contract v2 delivered (`inference_scaler_v2.yaml`, `inference_feature_order_v2.json`), superseding the prior 9-column finding. Real PCAP extraction remains scoped post-MVP.
 
 ---
 

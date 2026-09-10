@@ -28,3 +28,8 @@ Thumbs.db
 # UCS data artifacts
 data/ucs/*.parquet
 data/ucs/*.yaml
+
+# Large raw prediction & NLL distribution dumps
+*_nll_distribution.csv
+*_predictions.json
+nll_outliers.csv
